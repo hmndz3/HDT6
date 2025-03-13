@@ -16,15 +16,19 @@ public class LectorCSV {
                 // Dividir la línea por comas, manejando campos entre comillas
                 String[] valores = linea.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                 
-                // Eliminar comillas de los campos
+                // Eliminar comillas de los campos y espacios en blanco
                 for (int i = 0; i < valores.length; i++) {
                     valores[i] = valores[i].replaceAll("^\"|\"$", "").trim();
                 }
                 
                 datos.add(valores);
+                
+                // Debug: Mostrar línea leída
+                System.out.println("Línea leída: " + String.join(", ", valores));
             }
         } catch (IOException e) {
             System.out.println("Error al leer el archivo CSV: " + e.getMessage());
+            e.printStackTrace();
         }
         
         return datos;

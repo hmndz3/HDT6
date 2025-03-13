@@ -3,7 +3,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 public class InterfazGraficaPokemon extends JFrame {
     private MapaPokemon mapaPokemon;
@@ -164,6 +163,27 @@ public class InterfazGraficaPokemon extends JFrame {
                 }
                 
                 String resultado = operaciones.getPokemonConHabilidad(habilidad);
+                areaResultado.setText(resultado);
+            }
+        });
+        
+        // Modificación: Agregar opción de ejecutar
+        botonEjecutar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (operaciones == null) {
+                    areaResultado.setText("Por favor, selecciona primero una implementación de mapa.");
+                    return;
+                }
+                
+                String entrada = campoEntrada.getText().trim();
+                if (entrada.isEmpty()) {
+                    areaResultado.setText("Por favor, ingresa un texto en el campo de entrada.");
+                    return;
+                }
+                
+                // Interpretar la entrada como nombre de Pokémon por defecto
+                String resultado = operaciones.getDatosPokemon(entrada);
                 areaResultado.setText(resultado);
             }
         });

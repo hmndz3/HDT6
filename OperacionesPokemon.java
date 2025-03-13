@@ -14,27 +14,71 @@ public class OperacionesPokemon {
 //--------------------------------------------------------------------------  
 //Operación 1: Agregar un Pokemon a la colección del usuario
     public String agregarPokemonAColeccionUsuario(String nombre) {
-        if (!todosLosPokemon.contieneLlave(nombre)) {
-            return "Error: Pokemon '" + nombre + "' no encontrado en el dataset.";
+        // Normalizar el nombre para búsqueda
+        String nombreNormalizado = normalizarNombre(nombre);
+        
+        if (!todosLosPokemon.contieneLlave(nombreNormalizado)) {
+            // Intentar búsqueda con mayúscula inicial
+            String nombreCapitalizado = capitalizarPrimeraLetra(nombreNormalizado);
+            if (!todosLosPokemon.contieneLlave(nombreCapitalizado)) {
+                // Intentar búsqueda con todo en minúsculas
+                String nombreMinusculas = nombreNormalizado.toLowerCase();
+                if (!todosLosPokemon.contieneLlave(nombreMinusculas)) {
+                    return "Error: Pokemon '" + nombre + "' no encontrado en el dataset. Verifica que el nombre esté escrito correctamente.";
+                } else {
+                    nombreNormalizado = nombreMinusculas;
+                }
+            } else {
+                nombreNormalizado = nombreCapitalizado;
+            }
         }
         
-        if (coleccionUsuario.tienePokemon(nombre)) {
-            return "Pokemon '" + nombre + "' ya está en tu colección.";
+        if (coleccionUsuario.tienePokemon(nombreNormalizado)) {
+            return "Pokemon '" + nombreNormalizado + "' ya está en tu colección.";
         }
         
-        coleccionUsuario.agregarPokemon(nombre, todosLosPokemon);
-        return "Pokemon '" + nombre + "' agregado a tu colección.";
+        coleccionUsuario.agregarPokemon(nombreNormalizado, todosLosPokemon);
+        return "Pokemon '" + nombreNormalizado + "' agregado a tu colección.";
     }
     
 //--------------------------------------------------------------------------  
 //Operación 2: Mostrar datos de un Pokemon específico
     public String getDatosPokemon(String nombre) {
-        if (!todosLosPokemon.contieneLlave(nombre)) {
-            return "Error: Pokemon '" + nombre + "' no encontrado en el dataset.";
+        // Normalizar el nombre para búsqueda
+        String nombreNormalizado = normalizarNombre(nombre);
+        
+        if (!todosLosPokemon.contieneLlave(nombreNormalizado)) {
+            // Intentar búsqueda con mayúscula inicial
+            String nombreCapitalizado = capitalizarPrimeraLetra(nombreNormalizado);
+            if (!todosLosPokemon.contieneLlave(nombreCapitalizado)) {
+                // Intentar búsqueda con todo en minúsculas
+                String nombreMinusculas = nombreNormalizado.toLowerCase();
+                if (!todosLosPokemon.contieneLlave(nombreMinusculas)) {
+                    return "Error: Pokemon '" + nombre + "' no encontrado en el dataset. Verifica que el nombre esté escrito correctamente.";
+                } else {
+                    nombreNormalizado = nombreMinusculas;
+                }
+            } else {
+                nombreNormalizado = nombreCapitalizado;
+            }
         }
         
-        Pokemon pokemon = todosLosPokemon.obtener(nombre);
+        Pokemon pokemon = todosLosPokemon.obtener(nombreNormalizado);
         return formatearDatosPokemon(pokemon);
+    }
+    
+//--------------------------------------------------------------------------  
+// Métodos auxiliares para normalizar nombres
+    private String normalizarNombre(String nombre) {
+        // Eliminar espacios en blanco al inicio y final
+        return nombre.trim();
+    }
+    
+    private String capitalizarPrimeraLetra(String nombre) {
+        if (nombre == null || nombre.isEmpty()) {
+            return nombre;
+        }
+        return nombre.substring(0, 1).toUpperCase() + nombre.substring(1);
     }
     
 //--------------------------------------------------------------------------  
@@ -79,7 +123,20 @@ public class OperacionesPokemon {
         List<Map.Entry<String, String>> pokemonConTipo = new ArrayList<>();
         
         for (Map.Entry<String, Pokemon> entrada : todosLosPokemon.getMapa().entrySet()) {
-            pokemonConTipo.add(new AbstractMap.SimpleEntry<>(entrada.getKey(), entrada.getValue().getTipo1()));
+            // Solo agregar Pokemon con nombres únicos (evitar duplicados debido a normalización)
+            String nombre = entrada.getKey();
+            boolean esDuplicado = false;
+            
+            for (Map.Entry<String, String> existente : pokemonConTipo) {
+                if (existente.getKey().equalsIgnoreCase(nombre)) {
+                    esDuplicado = true;
+                    break;
+                }
+            }
+            
+            if (!esDuplicado) {
+                pokemonConTipo.add(new AbstractMap.SimpleEntry<>(nombre, entrada.getValue().getTipo1()));
+            }
         }
         
         // Ordenar por Tipo1
@@ -97,10 +154,16 @@ public class OperacionesPokemon {
 //Operación 5: Mostrar Pokemon con una habilidad específica
     public String getPokemonConHabilidad(String habilidad) {
         List<String> pokemonConHabilidad = new ArrayList<>();
+        Set<String> nombresAgregados = new HashSet<>(); // Para evitar duplicados
         
         for (Map.Entry<String, Pokemon> entrada : todosLosPokemon.getMapa().entrySet()) {
-            if (entrada.getValue().getHabilidades().contains(habilidad)) {
-                pokemonConHabilidad.add(entrada.getKey());
+            if (entrada.getValue().getHabilidades().toLowerCase().contains(habilidad.toLowerCase())) {
+                String nombre = entrada.getKey();
+                // Evitar duplicados por normalización
+                if (!nombresAgregados.contains(nombre.toLowerCase())) {
+                    pokemonConHabilidad.add(nombre);
+                    nombresAgregados.add(nombre.toLowerCase());
+                }
             }
         }
         
