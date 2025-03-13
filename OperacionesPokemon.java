@@ -84,19 +84,25 @@ public class OperacionesPokemon {
 //--------------------------------------------------------------------------  
 //Método auxiliar para formatear los datos de un Pokemon
     private String formatearDatosPokemon(Pokemon pokemon) {
-        return "Nombre: " + pokemon.getNombre() + "\n" +
-               "Tipo1: " + pokemon.getTipo1() + "\n" +
-               "Tipo2: " + pokemon.getTipo2() + "\n" +
-               "Total: " + pokemon.getTotal() + "\n" +
-               "HP: " + pokemon.getHp() + "\n" +
-               "Ataque: " + pokemon.getAtaque() + "\n" +
-               "Defensa: " + pokemon.getDefensa() + "\n" +
-               "Ataque Esp.: " + pokemon.getAtaqueEsp() + "\n" +
-               "Defensa Esp.: " + pokemon.getDefensaEsp() + "\n" +
-               "Velocidad: " + pokemon.getVelocidad() + "\n" +
-               "Generación: " + pokemon.getGeneracion() + "\n" +
-               "Legendario: " + pokemon.isLegendario() + "\n" +
-               "Habilidades: " + pokemon.getHabilidades();
+        StringBuilder resultado = new StringBuilder();
+        
+        resultado.append("Nombre: ").append(pokemon.getNombre()).append("\n");
+        resultado.append("Número Pokédex: ").append(pokemon.getPokedexNum()).append("\n");
+        resultado.append("Tipo1: ").append(pokemon.getTipo1()).append("\n");
+        
+        // Solo agregar Tipo2 si no está vacío
+        if (pokemon.getTipo2() != null && !pokemon.getTipo2().isEmpty()) {
+            resultado.append("Tipo2: ").append(pokemon.getTipo2()).append("\n");
+        }
+        
+        resultado.append("Clasificación: ").append(pokemon.getClasificacion()).append("\n");
+        resultado.append("Altura (m): ").append(pokemon.getAltura()).append("\n");
+        resultado.append("Peso (kg): ").append(pokemon.getPeso()).append("\n");
+        resultado.append("Habilidades: ").append(pokemon.getHabilidades()).append("\n");
+        resultado.append("Generación: ").append(pokemon.getGeneracion()).append("\n");
+        resultado.append("Legendario: ").append(pokemon.isLegendario() ? "Sí" : "No").append("\n");
+        
+        return resultado.toString();
     }
     
 //--------------------------------------------------------------------------  

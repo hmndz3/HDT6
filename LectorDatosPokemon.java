@@ -17,32 +17,26 @@ public class LectorDatosPokemon {
                 }
                 
                 try {
-                    // Formato del CSV actual: Name,Pokedex Number,Type1,Type2,Classification,Height,Weight,Abilities,Generation,Legendary Status
+                    // Formato del CSV actual: 
+                    // Name, Pokedex Number, Type1, Type2, Classification, Height (m), Weight (kg), Abilities, Generation, Legendary Status
+                    
                     // Mapear correctamente las columnas
                     String nombre = linea[0].trim(); // Name
+                    int pokedexNum = Integer.parseInt(linea[1].trim()); // Pokedex Number
                     String tipo1 = linea[2].trim();  // Type1
                     String tipo2 = linea[3].trim();  // Type2
-                    
-                    // Valores que no están en el CSV se ponen por defecto
-                    int pokedexNum = Integer.parseInt(linea[1].trim());
-                    int total = 0; // Valor por defecto
-                    int hp = 0;    // Valor por defecto
-                    int ataque = 0; // Valor por defecto
-                    int defensa = 0; // Valor por defecto
-                    int ataqueEsp = 0; // Valor por defecto
-                    int defensaEsp = 0; // Valor por defecto
-                    int velocidad = 0; // Valor por defecto
-                    
-                    // Generation está en el CSV
-                    int generacion = Integer.parseInt(linea[8].trim());
+                    String clasificacion = linea[4].trim(); // Classification
+                    String altura = linea[5].trim();  // Height (m)
+                    String peso = linea[6].trim();    // Weight (kg)
+                    String habilidades = linea[7].trim(); // Abilities
+                    int generacion = Integer.parseInt(linea[8].trim()); // Generation
                     
                     // Legendary status - convertir "Yes"/"No" a boolean
                     boolean legendario = linea[9].trim().equalsIgnoreCase("Yes");
                     
-                    // Abilities está en el CSV
-                    String habilidades = linea[7].trim();
-                    
-                    Pokemon pokemon = new Pokemon(nombre, tipo1, tipo2, total, hp, ataque, defensa, ataqueEsp, defensaEsp, velocidad, generacion, legendario, habilidades);
+                    Pokemon pokemon = new Pokemon(nombre, pokedexNum, tipo1, tipo2, clasificacion, 
+                                                 altura, peso, habilidades, generacion, legendario);
+                                                 
                     mapaPokemon.agregar(nombre, pokemon);
                     
                     // Agregamos también una versión con la primera letra en minúscula para búsqueda más flexible

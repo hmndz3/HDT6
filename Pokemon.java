@@ -1,42 +1,41 @@
 // Clase para almacenar datos de Pokemon
 public class Pokemon {
     private String nombre;
+    private int pokedexNum;
     private String tipo1;
     private String tipo2;
-    private int total;
-    private int hp;
-    private int ataque;
-    private int defensa;
-    private int ataqueEsp;
-    private int defensaEsp;
-    private int velocidad;
+    private String clasificacion;
+    private String altura;
+    private String peso;
+    private String habilidades;
     private int generacion;
     private boolean legendario;
-    private String habilidades;
 
 //--------------------------------------------------------------------------  
 //Constructor de la clase Pokemon
-    public Pokemon(String nombre, String tipo1, String tipo2, int total, int hp, int ataque, int defensa,
-                  int ataqueEsp, int defensaEsp, int velocidad, int generacion, boolean legendario, String habilidades) {
+    public Pokemon(String nombre, int pokedexNum, String tipo1, String tipo2, 
+                   String clasificacion, String altura, String peso, 
+                   String habilidades, int generacion, boolean legendario) {
         this.nombre = nombre;
+        this.pokedexNum = pokedexNum;
         this.tipo1 = tipo1;
         this.tipo2 = tipo2;
-        this.total = total;
-        this.hp = hp;
-        this.ataque = ataque;
-        this.defensa = defensa;
-        this.ataqueEsp = ataqueEsp;
-        this.defensaEsp = defensaEsp;
-        this.velocidad = velocidad;
+        this.clasificacion = clasificacion;
+        this.altura = altura;
+        this.peso = peso;
+        this.habilidades = habilidades;
         this.generacion = generacion;
         this.legendario = legendario;
-        this.habilidades = habilidades;
     }
 
 //--------------------------------------------------------------------------  
 //Getters de todos los atributos
     public String getNombre() {
         return nombre;
+    }
+
+    public int getPokedexNum() {
+        return pokedexNum;
     }
 
     public String getTipo1() {
@@ -47,32 +46,20 @@ public class Pokemon {
         return tipo2;
     }
 
-    public int getTotal() {
-        return total;
+    public String getClasificacion() {
+        return clasificacion;
     }
 
-    public int getHp() {
-        return hp;
+    public String getAltura() {
+        return altura;
     }
 
-    public int getAtaque() {
-        return ataque;
+    public String getPeso() {
+        return peso;
     }
 
-    public int getDefensa() {
-        return defensa;
-    }
-
-    public int getAtaqueEsp() {
-        return ataqueEsp;
-    }
-
-    public int getDefensaEsp() {
-        return defensaEsp;
-    }
-
-    public int getVelocidad() {
-        return velocidad;
+    public String getHabilidades() {
+        return habilidades;
     }
 
     public int getGeneracion() {
@@ -83,28 +70,21 @@ public class Pokemon {
         return legendario;
     }
 
-    public String getHabilidades() {
-        return habilidades;
-    }
-
 //--------------------------------------------------------------------------  
 //ToString para mostrar la información completa del Pokemon
     @Override
     public String toString() {
         return "Pokemon{" +
                 "nombre='" + nombre + '\'' +
+                ", pokedexNum=" + pokedexNum +
                 ", tipo1='" + tipo1 + '\'' +
                 ", tipo2='" + tipo2 + '\'' +
-                ", total=" + total +
-                ", hp=" + hp +
-                ", ataque=" + ataque +
-                ", defensa=" + defensa +
-                ", ataqueEsp=" + ataqueEsp +
-                ", defensaEsp=" + defensaEsp +
-                ", velocidad=" + velocidad +
+                ", clasificacion='" + clasificacion + '\'' +
+                ", altura='" + altura + '\'' +
+                ", peso='" + peso + '\'' +
+                ", habilidades='" + habilidades + '\'' +
                 ", generacion=" + generacion +
                 ", legendario=" + legendario +
-                ", habilidades='" + habilidades + '\'' +
                 '}';
     }
 }
